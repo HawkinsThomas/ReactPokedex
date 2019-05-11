@@ -3,10 +3,10 @@ import { Container } from 'reactstrap';
 import './Pokemon.css';
 
 
-const Pokemon = props => (
+const Pokemon = (props) => (
   <Container tag="main">
-    {/* TODO: <img> */}
-    {/* TODO: <h1> */}
+    <img src={props.imgSrc} alt={props.name}></img>
+    <h1>{props.name}</h1>
   </Container>
 );
 

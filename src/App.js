@@ -6,14 +6,32 @@ import Pokemon from './components/Pokemon';
 class App extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { pokemon: null };
+    this.state = {
+      pokemon: null,
+      url: null,
+     };
     this.search = this.search.bind(this);
   }
 
   search(pokemonName) {
-    // TODO: Get pokemon searched for and set it as the state of `pokemon`
-    // Feel free to refer to your pokédex assignment
     let url = `https://pokeapi.co/api/v2/pokemon/${pokemonName}`;
+    fetch(url)
+      .then(response => response.json())
+      .catch((e) => {console.log(e)})
+      .then((pokeResult) => {
+        const resultUrl = pokeResult.sprites.front_default;
+        this.setState({
+          PokeImgSrc: resultUrl,
+          pokemon: pokemonName,
+          url: url,
+        })
+      })
+      .catch(() => this.setState({
+        pokemon: null,
+        url: null,
+      }));
+
+
     return ;
   }
 
@@ -25,7 +43,7 @@ class App extends React.Component {
         {this.state.pokemon === null ? (
           <Pokemon name="No Results" imgSrc="/placeholder.png" />
         ) : (
-          // TODO: Add other <Pokemon> with appropriate props passed
+          <Pokemon name={this.state.pokemon} imgSrc={this.state.PokeImgSrc} />
         )}
       </div>
     );
